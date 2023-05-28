@@ -5,41 +5,47 @@ from pydantic import BaseModel
 
 router = APIRouter()
 
-cities = [
-    {
+cities = [{
+        "country_name" : "Ukraine",
         "city_name" : "Kyiv",
         "population" : "4 millions",
-        "is_capital" : true
-        "big_cities" : [
-            "Kyiv", "Kharkiv", "Odesa", "Dnipro", "Donetsk", "Lviv", "Sevastopol"],
-        "national_holidays" : 16,
-        "interesting_facts" : "The most beautiful country in the world!",            
+        "is_capital" : True,
+        "area" : "839 sq2",
+        "timezone" : "UTC",
+        "major_landmarks" : ["Sobor Svjatogo Volodimyra", "Pecherska Lavra", "Majdan Nezalegnosti"],
+        "museums" : ["Nacionalnij Hudozhnij Muzej", "History Museum of Kyiv"],
+        "universities": [
+            "Kyivskij nacionalnij universitet imeni Tarasa Sevcenka", 
+            "Nacionalnij tehnichnij universitet Ukraїni - Kiїvskij politehnicnij institut"],
+
     }
 ]
 
-class Country(BaseModel):
-    country_name: str
-    capital_name: str
+class Cities(BaseModel):
+    city_name: str
     population: str
-    language: str
-    big_cities: Optional[list]
-    national_holidays: Optional[int]
-    interesting_facts: Optional[str]
+    is_capital: bool
+    area: str
+    timezone: str
+    major_landmarks: Optional[list]
+    museums: Optional[list]
+    universities: Optional[list]
 
 
-@router.get("/countries", response_model=List[Country])
-async def get_all_countries():
-    return countries
 
-@router.post("/countries/")
-async def add_country(country: Country):
-    return countries.append(country)
+@router.get("/cities", response_model=List[Cities])
+async def get_all_cities():
+    return cities
 
-@router.get("/countries/country_names")
-async def get_all_country_names():
-    return [country.get("country_name") for country in countries]
+@router.post("/cities/")
+async def add_city(city: Cities):
+    return cities.append(city)
 
-@router.get("/countries/{country_id}")
-async def get_country_id(country_id: int):
-    return countries[country_id]
+@router.get("/cities/city_names")
+async def get_all_city_names():
+    return [city_names.get("country_name") for city_names in cities]
+
+@router.get("/countries/{city_id}")
+async def get_country_id(city_id: int):
+    return cities[city_id]
 
